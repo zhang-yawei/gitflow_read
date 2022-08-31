@@ -38,15 +38,18 @@
 #
 
 # set this to workaround expr problems in shFlags on freebsd
+# uname -s 显示内核名称
 if uname -s | egrep -iq 'bsd'; then export EXPR_COMPAT=1; fi
 
 # enable debug mode
 if [ "$DEBUG" = "yes" ]; then
+	# 显示脚本运行是的冗余输出，在set命令之后执行的每一条命令以及加载命令行中的任何参数都会显示出来，每一行都会加上加号（+），提示它是跟踪输出的标识。
 	set -x
 fi
 
 # The sed expression here replaces all backslashes by forward slashes.
 # This helps our Windows users, while not bothering our Unix users.
+# s/A/B/g 是sed中的替换命令 ,将A替换为B。 这里是将 \替换为 /
 export GITFLOW_DIR=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
 
 usage() {
@@ -64,6 +67,7 @@ usage() {
 }
 
 main() {
+	# $# shell的参数个数 -lt小于。  如果命令参数个数小于1
 	if [ $# -lt 1 ]; then
 		usage
 		exit 1
